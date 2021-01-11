@@ -122,7 +122,7 @@ I ran my refined model on the full cleaned dataset with only six features on an 
 
 After tuning my model on the Pride Week smaller dataset, I decided to run a K-Means clustering model with five clusters and six features (listed above). I chose to use five clusters due to the silhouette score and dendrograms from running the smaller model.  
 
-The final five cluster had the following locations, trip distance, duration of trip, day of week and time of day as the centroids.
+The final five clusters had the following centroid data for origin location, trip distance, duration of trip, day of week and time of day.
 
 ![](images/results.png)   
 
