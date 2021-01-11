@@ -126,23 +126,23 @@ The final five cluster had the following locations, trip distance, duration of t
 
 ![](images/results.png)   
 
+#### Recommendations
+In conclusion, based on the model outcomes and EDA I would the e-scooter companies need to focus on weekday afternoons when it comes to deploying the scooters. The morning deployment is most likely okay, so they need to focus on making sure they have enough scooters with charged batteries for the peak time between 4-6pm. 
 
+I would also suggest to do further analysis on the dataset regarding rides under two minutes, as this may suggest dead scooters which means a loss in profit. The companies could do incentives for users to end rides in specific locations so it is easier to pick them up for charging midday and then redployment. 
 
-In conclusion, based on the model outcomes and EDA I would say the morning scooter deployment seems to cover the area fairly well meaning there is no significant loss in profit. The bulk of the rides are happening within an 8-hour window, this is where the company may need to move the scooters again to make sure ride opportunities are not missed and/or they may need to charge the scooters during this window due to the amount of rides. If the company has data surrounding scooter battery life, this would be another helpful feature to determine if ridership declined due to scooters having little or no bettery life. 
+I would also do futher analysis on the length of time scooters are reserved/checked out. There were multiple clusters centered at very high length of time >45 minutes even though the user only traveled three miles. This may mean that there is a limited supply of scooters in a particular area so they keep it reserved; thus, the company could increase their profit by deploying more scooters in those areas.
 
 ## Future Work 
 I would love to be able to use these cleaning and analysis pipelines on other cities’ scooter pilot data so a new market can see the value of adding shared micromobility, as well as continue exploring the future steps listed below.  
 
-
 Future analysis could be:  
-- Explore other distance metrics with my hierarchical clustering  model
-- Run both models with more features included in the dataset, currently just ran on origin and destination coordinates
-- Run my model and analysis on the entire cleaned dataset, not just the focused June Pride Week
-- Compare scooter trip spatial data with bike lane infrastructure
+- Suggest another pilot that is over the entire year to see if there are any seasonal dependencies for profit
+- Compare scooter trip spatial data with bike lane and pedestrian infrastructure: users may be more likely to ride scooters in areas that feel safe
 - Visualize most trafficked transit stops
-- Supervised machine Learning predictive model to obtain transit ridership data for comparison with scooter data; can then compare model to updated data I receive from the CTA
-- Hypothesis test or other statistical analyses on scooter usage
-- Create a predictive machine learning model using available scooter data to predict the best locations for drop off in the morning—which locations have the highest profitability potential, utilization rates, connect the most people to transit, etc.
+- Compare scooter clusters against transit data
+- Develop code to pull Google Street Cam footage of cluster centers 
+- Create a predictive machine learning model using available scooter data to predict the best locations for drop off in the morning and afternoon—which locations have the highest profitability potential, utilization rates, connect the most people to transit, etc.
 ![](images/SantaMonicascootercorral.jpg)  
 <font size ="-1">*Figure 5: Micromobility infrastructure + e-scooter rider*</font><br>
 [source](https://chi.streetsblog.org/2019/05/01/chicago-will-launch-a-pilot-with-2500-dockless-scooters-on-june-15/)
