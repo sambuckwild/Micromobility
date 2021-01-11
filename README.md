@@ -99,8 +99,10 @@ After cleaning the data, I started exploring it by looking at the spread of trip
 | **Scooter Ride Origins Heat Map**   |  **Scooter Ride Destinations Heat Map** |
 |  ------   |   -----   |
 |![](images/fulldf_origin_heatmap.png)  | ![](images/fulldf_dest_heatmap.png) |  
-> Both ride origins and destinations seem to be clustered around similar areas in the city, just that more rides start further out and end up closer to downtown as one would expect.
-> We can see that certain areas further out from the downtown area have similar heat map signatures for origins and destinations so maybe the same people use scooters to get into town and then back home.
+> Both ride origins and destinations seem to be clustered around similar areas in the city, just that more rides start further out and end up closer to downtown as one would expect.  
+
+> We can see that certain areas further out from the downtown area have similar heat map signatures for origins and destinations so maybe the same people use scooters to get into town and then back home.  
+
 > Due to these observations, I decided to only use ride origins as a feature in my final model.
 
 
@@ -118,42 +120,13 @@ I ran my refined model on the full cleaned dataset with only six features on an 
 
 #### K-Means Clustering
 
-Initial running of the model which produced 8 cluster centers, along with the silhouette score for varying number of clusters to determine how many to use in my adjusted model are shown below.
+After tuning my model on the Pride Week smaller dataset, I decided to run a K-Means clustering model with five clusters and six features (listed above). I chose to use five clusters due to the silhouette score and dendrograms from running the smaller model.  
 
-|**Ride Origin Cluster Centers**|**Origin Silhouette Score**|**Ride Destination Cluster Centers**|**Destination Silhouette Score**|
-| :----------------: | :------------------------: | :------------------------------------------: |  :-------------:  |
-|  41.92271055, -87.69864685    | 2 clusters: 0.527 |  41.90502859, -87.67485789 | 2 clusters: 0.514| 
-|  41.88322404, -87.65717622   |  3 clusters: 0.471|   41.93554794 -87.72108325|   3 clusters: 0.462 |
-|   41.89384565, -87.76146354 |   4 clusters: 0.532 |    41.8912974, -87.71854302|   4 clusters: 0.501 |
-|   41.8626154,  -87.71611382  |  5 clusters: 0.543  |   41.92274303, -87.69833183|   5 clusters: 0.518   |
-|  41.93383835, -87.7709733  | 6 clusters: 0.517 |   41.93433698, -87.77101021  |    6 clusters: 0.519 |
-|  41.90517536, -87.67633932 |  7 clusters: 0.529   |  41.87932401, -87.65787626  |     7 clusters: 0.508 |
-|  41.92835925, -87.72146241|  8 clusters: 0.525  |   41.8485868, -87.71491064 |    8 clusters: 0.436  |
-|  41.85610043, -87.66720712] |  9 clusters: 0.563  | 41.8936009, -87.76217343 |   9 clusters: 0.527 |   
-<br>   
+The final five cluster had the following locations, trip distance, duration of trip, day of week and time of day as the centroids.
 
-![](images/origin_dest_sil_plot.svg)   
+![](images/results.png)   
 
 
-> Based on the silhouette score plot, the largest scores--meaning tighter, non-overlapping clusters--for ride origins and destinations are 4,5,8 and 5,6 respectively.   
-
-I ran my model again using 8 clusters for origins and 5 clusters for destinations to obtain the cluster centers. The centers are plotted below on a scatter plot of the rides along with overlaying the original ride origin or destination heat maps.  
-
-| **Ride Origins + Cluster Centers Scatter Plot**   |  **Ride Origins Heat Map + Cluster Centers Markers** |
-|  ------   |   -----   |
-|![](images/kmeans_origin_scatter.svg)  | ![](images/cluster_origin_heat_map.png) |   
-
-| **Ride Destinations + Cluster Centers Scatter Plot**   |  **Ride Destinations Heat Map + Cluster Centers Markers** |
-|  ------   |   -----   |
-|![](images/kmeans_dest_scatter.svg)  | ![](images/cluster_dest_heat_map.png) |   
-
-#### Hierarchical Clustering
-
-I initially ran the model with the distance metric as *Euclidean distance* to see how it compared to the K-Means model. I used the same number of clusters, 8 for origins and 5 for destinations, to visualize them on the below dendrograms.  
-
-![](images/origin_dendrogram.svg)  
-
-![](images/dest_dendrogram.svg)   
 
 In conclusion, based on the model outcomes and EDA I would say the morning scooter deployment seems to cover the area fairly well meaning there is no significant loss in profit. The bulk of the rides are happening within an 8-hour window, this is where the company may need to move the scooters again to make sure ride opportunities are not missed and/or they may need to charge the scooters during this window due to the amount of rides. If the company has data surrounding scooter battery life, this would be another helpful feature to determine if ridership declined due to scooters having little or no bettery life. 
 
