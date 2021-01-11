@@ -142,7 +142,9 @@ Future analysis could be:
 - Visualize most trafficked transit stops
 - Compare scooter clusters against transit data
 - Develop code to pull Google Street Cam footage of cluster centers 
-- Create a predictive machine learning model using available scooter data to predict the best locations for drop off in the morning and afternoon—which locations have the highest profitability potential, utilization rates, connect the most people to transit, etc.
+- Create a predictive machine learning model using available scooter data to predict the best locations for drop off in the morning and afternoon—which locations have the highest profitability potential, utilization rates, connect the most people to transit, etc.  
+
+
 ![](images/SantaMonicascootercorral.jpg)  
 <font size ="-1">*Figure 5: Micromobility infrastructure + e-scooter rider*</font><br>
 [source](https://chi.streetsblog.org/2019/05/01/chicago-will-launch-a-pilot-with-2500-dockless-scooters-on-june-15/)
