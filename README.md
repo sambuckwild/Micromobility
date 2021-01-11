@@ -68,7 +68,8 @@ After a more thorough review of the scooter pilot data, there were some assumpti
 -  ```Trip Duration``` was originally in seconds, each value was divided by 60 to be shown in minutes
 -  Similarly, ```Trip Duration``` of less than 2 minutes or more than 8 hours was removed as less than 2 minutes is most likely a broken/uncharged scooter and more than 8 hours is someone keeping a scooter unlocked for instance from riding to work and then riding back at the end of the day (won't help in the question of should they be moved during the day)  
 
-I still had over 590,000 data points after cleaning the data and filtering out bad data, so I decided to focus in on just one week of data: **Pride Week in June 2019 which was 6/21/2019 - 6/30/2019**.  
+#### Initial Small Scale Model
+I still had over 590,000 data points after cleaning the data and filtering out bad data, so I decided to focus in on just one week of data first: **Pride Week in June 2019 which was 6/21/2019 - 6/30/2019**. My initial EDA, modeling, and results for Pride Week can be seen [here](Pride_Week_Model.md).
 
 |   | Trip_ID                              | Start_Time          | End_Time            | Trip_Distance      | Trip_Duration      | Accuracy | Start_Centroid_Latitude | Start_Centroid_Longitude | End_Centroid_Latitude | End_Centroid_Longitude | Day_of_Week | Time_of_Day |
 |---|--------------------------------------|---------------------|---------------------|--------------------|--------------------|----------|-------------------------|--------------------------|-----------------------|------------------------|-------------|-------------|
@@ -84,29 +85,36 @@ I still had over 590,000 data points after cleaning the data and filtering out b
 
 After cleaning the data, I started exploring it by looking at the spread of trip distances and durations, the frequency of rides--day of week and hour of the day--and by oberserving the spatial relationship between ride origins and destinations.  
 
-![](images/trip_distance_hist.svg)   
+![](images/dull_df_distance.svg)   
 
-![](images/trip_duration_hist.svg)   
-> The majority of rides went less than 2 miles and were less than 15 minutes long.
+![](images/full_df_duration.svg)   
+> The majority of rides went less than 2 miles and were less than 20 minutes long.
 
-![](images/day_of_week_bar.svg)  
+![](images/full_df_dayweek.svg)  
 
-![](images/hour_of_day_bar1.svg)
+![](images/full_df_hour.svg)
 > Friday & Saturday look to be the prime days for scooter rides, and over all days in the week afternoon/evening is the prime time.
 
-![](images/day_hour_line_plot.svg)   
-> This shows almost a cyclic nature for rides Monday-Thursday around the end of the workday/early evening, with peak rides on Friday & Saturday around lunchtime/early afternoon, and again on Sunday a similar peak to the weekdays just shifted earlier around brunch time.
 
 | **Scooter Ride Origins Heat Map**   |  **Scooter Ride Destinations Heat Map** |
 |  ------   |   -----   |
-|![](images/origin_heat_map.png)  | ![](images/dest_heat_map.png) |  
+|![](images/fulldf_origin_heatmap.png)  | ![](images/fulldf_dest_heatmap.png) |  
 > Both ride origins and destinations seem to be clustered around similar areas in the city, just that more rides start further out and end up closer to downtown as one would expect.
 > We can see that certain areas further out from the downtown area have similar heat map signatures for origins and destinations so maybe the same people use scooters to get into town and then back home.
+> Due to these observations, I decided to only use ride origins as a feature in my final model.
 
 
 ## Analysis
 
 I chose to use unsupervised clustering analysis to extrapolate hidden relationships in the scooter ride data. Due to the nature of the data, hard clustering was used comparing both K-Means and Hierarchical clustering methods. 
+
+I ran my refined model on the full cleaned dataset with only six features on an AWS EC2 instance. I chose the following six features due to reasons noted in [Exploratory Data Analysis](#exploratory-data-analysis):
+1. ```Trip_Distance```
+2. ```Trip_Duration```
+3. ```Start_Centroid_Latitude```
+4. ```Start_Centroid_Longitude```
+5. ```Day_of_Week```
+6. ```Time_of_Day```
 
 #### K-Means Clustering
 
