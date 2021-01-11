@@ -69,7 +69,7 @@ After a more thorough review of the scooter pilot data, there were some assumpti
 -  Similarly, ```Trip Duration``` of less than 2 minutes or more than 8 hours was removed as less than 2 minutes is most likely a broken/uncharged scooter and more than 8 hours is someone keeping a scooter unlocked for instance from riding to work and then riding back at the end of the day (won't help in the question of should they be moved during the day)  
 
 #### Initial Small Scale Model
-I still had over 590,000 data points after cleaning the data and filtering out bad data, so I decided to focus in on just one week of data first: **Pride Week in June 2019 which was 6/21/2019 - 6/30/2019**. My initial EDA, modeling, and results for Pride Week can be seen [here](Pride_Week_Model.md).
+I still had over 590,000 data points after cleaning the data and filtering out bad data, so I decided to focus in on just one week of data first: **Pride Week in June 2019 which was 6/21/2019 - 6/30/2019**. My initial EDA, modeling, and results for Pride Week can be seen [here](Pride_Week_Model_README.md).
 
 |   | Trip_ID                              | Start_Time          | End_Time            | Trip_Distance      | Trip_Duration      | Accuracy | Start_Centroid_Latitude | Start_Centroid_Longitude | End_Centroid_Latitude | End_Centroid_Longitude | Day_of_Week | Time_of_Day |
 |---|--------------------------------------|---------------------|---------------------|--------------------|--------------------|----------|-------------------------|--------------------------|-----------------------|------------------------|-------------|-------------|
