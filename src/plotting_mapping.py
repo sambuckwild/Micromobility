@@ -73,3 +73,15 @@ if __name__ == '__main__':
                             'Start_Centroid_Longitude', 'Ride Origins')
     origin_heat_map = chicago_map.add_child(origin_heat_map)
     map_html_file(origin_heat_map, '../iamges/origin_heat_map.html')
+
+    '''EDA Line Plot'''
+    hour_day_of_week = scooter_june_pride.groupby(['Day_of_Week', 'Time_of_Day']).count()
+    fig, ax = plt.subplots(figsize=(16, 8))
+    ax = hour_day_of_week['Trip_ID'].plot(kind='line', color='#8624FC')
+    ax.set_xlabel('Day of Week & Time of Day', fontsize=16)
+    ax.set_ylabel('Frequency', fontsize=16)
+    ax.set_title('Scooter Trips - Pride Week June 2019', fontsize=20)
+    ax.set_xticklabels(labels=['Sunday, 10pm', 'Monday, Midnight', 'Monday, 10pm', 'Tuesday, 8pm', 
+                    'Wednesday, 6pm', 'Thursday, 4pm', 'Friday, 2pm', 'Saturday, 12pm', 
+                    'Sunday, 10am', 'Monday, 8am','Tuesday, 6am'],rotation=45, fontsize=12, ha='right')
+#     image_file('../images/day_hour_line_plot.svg')

@@ -84,10 +84,12 @@ if __name__ == '__main__':
     small_scooter = data_snapshot(scooter, 'Start_Time', '2019-06-21', '2019-06-30')
     save_dataframe_to_csv(small_scooter, '../data/small_scooter.csv')
     
-    '''clean full dataset'''
+    '''clean full dataset - six features'''
     clean_scooter = load_data('../data/full_clean_scooter.csv')
-    clean_scooter.drop(columns='Unnamed: 0', inplace=True)
-    cols_to_datetime(clean_scooter, ['Start_Time', 'End_Time'])
+    clean_scooter.drop(columns=['Unnamed: 0', 'Trip_ID', 'Start_Time', 'End_Time', 
+                        'Accuracy', 'End_Centroid_Latitude',
+                            'End_Centroid_Longitude'], inplace=True)
+    
 	
     
     

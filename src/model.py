@@ -66,6 +66,14 @@ def dendrogram_plot(cluster, ax, level_num, trunc_mode, color_thresh, title):
     plt.xticks(fontsize-12)
     plt.title(title, fontsize=24)
 
+def get_cluster_geo_df(kmeans_model, n_clust):
+    cluster_centers = kmeans_model.cluster_centers_
+    cluster_lat_lon = [cluster_centers[i][2:4] for i in range(0,n_clust)]
+    clust_df = pd.DataFrame(data=cluster_lat_lon, columns=['lat', 'lon'])
+    name = ['cluster ' + str(idx + 1) for idx in range(0, len(clust_df))]
+    clust_df['name'] = name
+    return clust_df
+
 
 if __name__ == '__main__':
     # read in week long cleaned dataframe

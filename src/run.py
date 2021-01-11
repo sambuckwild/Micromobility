@@ -16,17 +16,40 @@ from model import *
 
 
 if __name__ == '__main__':
-    '''clean full dataset'''
-    clean_scooter = load_data('full_clean_scooter.csv')
-    clean_scooter.drop(columns='Unnamed: 0', inplace=True)
-    cols_to_datetime(clean_scooter, ['Start_Time', 'End_Time'])
-
-    #read in week long cleaned dataframe
+    # '''read in week long cleaned dataframe'''
     scooter_june_pride = load_data('../data/small_scooter.csv')
     scooter_june_pride = drop_cols_update_names(scooter_june_pride, ['Unnamed: 0'])
     scooter_june_pride = cols_to_datetime(scooter_june_pride, ['Start_Time', 'End_Time'])
-	
-    # EDA Histograms'''
+    
+    '''clean full dataset - six features'''
+    clean_scooter = load_data('../data/full_clean_scooter.csv')
+    clean_scooter.drop(columns=['Unnamed: 0', 'Trip_ID', 'Start_Time', 'End_Time', 
+                        'Accuracy', 'End_Centroid_Latitude',
+                            'End_Centroid_Longitude'], inplace=True)
+    #kmeans model with full dataset and five clusters
+    kmeans_fulldf = kmeans_model(clean_scooter, n_clust=5)
+    print('cluster centers:{}'.format(kmeans_fulldf.cluster_centers_))
+
+    #heat map with cluster center geo-coordinates mapped
+    cluster_center_df = get_cluster_geo_df(kmeans_fulldf, n_clust=5)
+    chicago_map_fulldf = folium.Map(location=[41.88955765, -87.71819668], zoom_start=11)
+    for i, row in cluster_center_df.iterrows():
+        folium.Marker([row['lat'], row['lon']], 
+                    popup=row['name'], color='b').add_to(chicago_map_fulldf)
+    heat_map_fulldf = folium.FeatureGroup(name = 'heat_map')
+    heat_map_fulldf.add_child( HeatMap( list(zip(clean_scooter['Start_Centroid_Latitude'].values,
+                                        clean_scooter['Start_Centroid_Longitude'].values)),
+                                name='Origins',
+                                max_val=float(60),
+                    min_opacity=0.2,
+                    radius=5.5, blur=3.5, 
+                    max_zoom=1, 
+                    ))
+    chicago_map_fulldf.add_child(heat_map_fulldf)
+    map_html_file(heat_map_fulldf, 'full_df_cluster_center_heatmap.html')
+    chicago_map_fulldf
+
+    '''EDA Histograms'''
     fig, ax = plt.subplots(figsize=(10,6))
     histogram_of_column(scooter_june_pride, 'Trip_Distance', ax, '#DF2C04',
                         'Scooter Trip Distances - Pride Week June 2019', 
@@ -52,18 +75,6 @@ if __name__ == '__main__':
     bar_chart(scooter_june_pride, 'Time_of_Day', ax, '#0DD4FC', hours,
                 'Scooter Trips - Pride Week June 2019', 'Time of Day, Hour')
 #     image_file('../images/hour_of_day_bar.svg')
-    
-    '''EDA Line Plot'''
-    hour_day_of_week = scooter_june_pride.groupby(['Day_of_Week', 'Time_of_Day']).count()
-    fig, ax = plt.subplots(figsize=(16, 8))
-    ax = hour_day_of_week['Trip_ID'].plot(kind='line', color='#8624FC')
-    ax.set_xlabel('Day of Week & Time of Day', fontsize=16)
-    ax.set_ylabel('Frequency', fontsize=16)
-    ax.set_title('Scooter Trips - Pride Week June 2019', fontsize=20)
-    ax.set_xticklabels(labels=['Sunday, 10pm', 'Monday, Midnight', 'Monday, 10pm', 'Tuesday, 8pm', 
-                    'Wednesday, 6pm', 'Thursday, 4pm', 'Friday, 2pm', 'Saturday, 12pm', 
-                    'Sunday, 10am', 'Monday, 8am','Tuesday, 6am'],rotation=45, fontsize=12, ha='right')
-#     image_file('../images/day_hour_line_plot.svg')
 
     '''Origin + Destination Heat Maps'''
     chi_map1= folium.Map(location=[41.862548, -87.749163], zoom_start=11)
@@ -79,12 +90,6 @@ if __name__ == '__main__':
 #     map_html_file(dest_heat_map, '../images/dest_heat_map.html')
 
     '''K-Means Modeling'''
-    #dataframe with just 6 features
-    df_6_col = clean_scooter[['Trip_Distance', 'Trip_Duration', 'Start_Centroid_Latitude', 
-    'Start_Centroid_Longitude', 'Day_of_Week', 'Time_of_Day']]
-    kmeans = kmeans_model(df_6_col, n_clust=5)
-    print('cluster centers:{}'.format(kmeans.cluster_centers_))
-
     origin_array = coord_location_array(scooter_june_pride, 
                       'Start_Centroid_Latitude', 'Start_Centroid_Longitude')
     destination_array = coord_location_array(scooter_june_pride,
@@ -146,13 +151,7 @@ if __name__ == '__main__':
     dest_heat_map2 = chi_map4.add_child(dest_heat_map2)
 #     map_html_file(dest_heat_map2, '../images/origin_cluster_heat_map.html')
 
-    '''hierarchical clustering model'''
-    hier_clust = hierarchical_cluster_model('euclidean', 'complete',
-                                                df_6_col)
-    fig, ax = plt.subplots(figsize=(24, 12))
-    dendrogram_plot(hier_clust, ax, 6, 'level', 100,
-                        'Scooter Ride Dendrogram with Five Clusters')
-    image_file('6_feature_dendrogram.svg')                                            
+    '''hierarchical clustering model'''                                          
     origin_hier_clust = hierarchical_cluster_model('euclidean', 'complete',
                                                 origin_array)
     dest_hier_clust = hierarchical_cluster_model('euclidean', 'complete',
