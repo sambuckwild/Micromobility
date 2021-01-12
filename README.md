@@ -22,6 +22,7 @@ Car rideshare has gained momentum exponentially in the last few years, and now w
 3. [Exploratory Data Analysis](#exploratory-data-analysis)
 4. [Analysis](#analysis)
 5. [Future Work](#future-work)
+6. [Project Presentation](#project-presentation)
 
 
 ## Background and Motivation   
@@ -145,6 +146,9 @@ Future analysis could be:
 - Develop code to pull Google Street Cam footage of cluster centers 
 - Create a predictive machine learning model using available scooter data to predict the best locations for drop off in the morning and afternoon—which locations have the highest profitability potential, utilization rates, connect the most people to transit, etc.  
 
+## Project Presentation
+
+Click [here](Project_Presentation.pdf) to see a PDF of my five-minute presentation on this project.
 
 ![](images/SantaMonicascootercorral.jpg)  
 <font size ="-1">*Figure 5: Micromobility infrastructure + e-scooter rider*</font><br>
