@@ -137,7 +137,7 @@ I would also do futher analysis on the length of time scooters are reserved/chec
 I would love to be able to use these cleaning and analysis pipelines on other cities’ scooter pilot data so a new market can see the value of adding shared micromobility, as well as continue exploring the future steps listed below.  
 
 Future analysis could be:  
-- Rework my six features to make day of week and hour of day of the scooter trip categorical rather than numerical features, because right now that is most likely why the cluster centers are all around 3pm on Thursdays
+- Rework my six features to make day of week and hour of day of the scooter trip categorical rather than numerical features, and rerun a model using something such as Gower distance for both data types
 - Suggest another pilot that is over the entire year to see if there are any seasonal dependencies for profit
 - Compare scooter trip spatial data with bike lane and pedestrian infrastructure: users may be more likely to ride scooters in areas that feel safe
 - Visualize most trafficked transit stops
