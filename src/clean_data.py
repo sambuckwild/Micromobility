@@ -7,6 +7,7 @@ def load_data(filepath):
         return df
 
 def drop_cols_update_names(df, col_lst):
+    '''drop columns and update column names in a dataframe'''
     df.drop(columns=col_lst, inplace=True)
     df.columns = df.columns.str.replace(' ', '_')
     return df
@@ -20,14 +21,17 @@ def cols_to_datetime(df, col_lst):
     return df
 
 def add_weekday_column(df, new_col, date_col):
+    '''add new column to dataframe that is weekday from a datetime column'''
     df[new_col] = df[date_col].dt.weekday
     return df
 
 def add_hour_column(df, new_col, date_col):
+    '''add new column to dataframe that is hour of day from a datetime column'''
     df[new_col] = df[date_col].dt.hour
     return df
 
 def change_col_units(df, col, divisor):
+    '''change the units of data in a column'''
     df[col] = df[col].apply(lambda x: x/divisor)
     return df
 
@@ -42,7 +46,7 @@ def filter_out_bad_data(df, col_lst, threshold_lst):
 
 def clean_dataframe(df, drop_col_lst, date_col_lst, day_col, hour_col, date_col, 
                         unit_col_1, unit_col_2, div_1, div_2, filter_col_lst, thresh_lst):
-
+    '''function that combines all those above to create a clean dataframe'''
     df = drop_cols_update_names(df, drop_col_lst)
     drop_nans(df)
     df = cols_to_datetime(df, date_col_lst)
@@ -54,6 +58,7 @@ def clean_dataframe(df, drop_col_lst, date_col_lst, day_col, hour_col, date_col,
     return df.reset_index(drop=True)
 
 def data_snapshot(df, col, low_end, high_end):
+    '''create small scale dataframe from the full clean one'''
     df = df[df[col] > low_end]
     df = df[df[col] <= high_end]
     return df.reset_index(drop=True)
@@ -63,7 +68,10 @@ def save_dataframe_to_csv(df, filepath):
 
 
 if __name__ == '__main__':
-    # scooter = load_data('../data/2019_Scooter_pilot.csv')
+
+    #initial scooter pilot data loaded and cleaned
+
+    scooter = load_data('../data/2019_Scooter_pilot.csv')
     scooter = clean_dataframe(df=scooter, 
                             drop_col_lst=['Start Census Tract', 'End Census Tract',
                             'Start Community Area Number', 'End Community Area Number', 
@@ -80,11 +88,13 @@ if __name__ == '__main__':
                             filter_col_lst=['Trip_Distance', 'Trip_Duration', 'Trip_Duration'],
                             thresh_lst=[25, 2, 400])
                            
-    '''make week long dataset'''
+    #make week long dataset for Pride Week, small scale dataset
+
     small_scooter = data_snapshot(scooter, 'Start_Time', '2019-06-21', '2019-06-30')
     save_dataframe_to_csv(small_scooter, '../data/small_scooter.csv')
     
-    '''clean full dataset - six features'''
+    #clean full dataset - reduce to six features for modeling
+    
     clean_scooter = load_data('../data/full_clean_scooter.csv')
     clean_scooter.drop(columns=['Unnamed: 0', 'Trip_ID', 'Start_Time', 'End_Time', 
                         'Accuracy', 'End_Centroid_Latitude',

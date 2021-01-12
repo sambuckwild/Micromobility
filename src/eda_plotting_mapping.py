@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 import folium 
 from folium.plugins import HeatMap
-from scooter_clean import load_data, drop_cols_update_names, cols_to_datetime
-
+from clean_data import load_data, drop_cols_update_names, cols_to_datetime
 
 def histogram_of_column(df, col, ax, color, title, x_label, x_tick_loc, y_tick_loc, x_low, x_high):
     df[col].hist(color=color, grid=False, bins=30)
@@ -22,7 +21,6 @@ def histogram_of_column(df, col, ax, color, title, x_label, x_tick_loc, y_tick_l
 
 def bar_chart(df, col, ax, color, label_lst, title, x_label):
     series = df[col].value_counts().sort_index()
-
     series.plot(kind='bar', color=color)
     ax.set_title(title, fontsize=20)
     ax.set_xlabel(x_label, fontsize=16)
@@ -48,7 +46,9 @@ def map_html_file(map_name, filepath):
     return map_name.save(filepath)
     
 if __name__ == '__main__':
-    # read in week long cleaned dataframe
+
+    # read in week long cleaned dataframe (pride week, small scale model)
+
     scooter_june_pride = load_data('../data/small_scooter.csv')
     scooter_june_pride = drop_cols_update_names(scooter_june_pride, ['Unnamed: 0'])
     scooter_june_pride = cols_to_datetime(scooter_june_pride, ['Start_Time', 'End_Time'])
@@ -84,4 +84,7 @@ if __name__ == '__main__':
     ax.set_xticklabels(labels=['Sunday, 10pm', 'Monday, Midnight', 'Monday, 10pm', 'Tuesday, 8pm', 
                     'Wednesday, 6pm', 'Thursday, 4pm', 'Friday, 2pm', 'Saturday, 12pm', 
                     'Sunday, 10am', 'Monday, 8am','Tuesday, 6am'],rotation=45, fontsize=12, ha='right')
-#     image_file('../images/day_hour_line_plot.svg')
+    # image_file('../images/day_hour_line_plot.svg')
+    # used only on small scale model to look at time of day and week of day
+
+
